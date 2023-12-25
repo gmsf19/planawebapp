@@ -1,23 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [data, setData] = useState();
+  const [optionsSelectDestiny, setOptionsSelectDestiny] = useState([]);
+
+  console.log(optionsSelectDestiny);
+  console.log(data);
+  const getViagens = async () => {
+    try {
+      fetch('http://localhost:1337/api/trips').then((response) =>
+        response.json().then((res) => setData(res.data))
+      );
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    setOptionsSelectDestiny(
+      data?.map((element) => {
+        console.log(element.attributes.destino);
+        return element.attributes.destino;
+      })
+    );
+  }, [data]);
+
+  useEffect(() => {
+    getViagens();
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>A</h1>
     </div>
   );
 }
